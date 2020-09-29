@@ -5,7 +5,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
 @Slf4j
-public class Part05Blocking {
+public class Part05ReactiveToBlocking {
 
     public static void main(String[] args) throws Exception {
         Flux<String> logins = Flux.just("A", "B").publishOn(Schedulers.elastic());
