@@ -23,6 +23,11 @@ public class Part04ReactiveFromBlocking {
 
     private static List<String> getUserLogins() {
         //blocks for long time
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+
+        }
         log.info("Blocking !!!");
         return Arrays.asList("A", "B");
     }

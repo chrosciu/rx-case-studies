@@ -42,7 +42,7 @@ public class Part01ConnectableFlux {
         log.info("further requests");
 
         sw1.getSubscription().request(3);
-        sw2.getSubscription().request(2);
+        sw2.getSubscription().request(1);
 
     }
 }

@@ -17,10 +17,11 @@ public class Part04Checkpoint {
                 .filter(i -> i % 3 != 0)
                 .map(i -> i + 1)
                 //.checkpoint()
+                //.checkpoint("After map")
                 .elementAt(8)
                 //.checkpoint()
                 .filter(i -> i > 0)
-                //.checkpoint();
-                .checkpoint("After filter");
+                .checkpoint();
+                //.checkpoint("After filter");
     }
 }

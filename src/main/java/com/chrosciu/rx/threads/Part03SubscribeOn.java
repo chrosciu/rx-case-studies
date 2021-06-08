@@ -10,13 +10,27 @@ public class Part03SubscribeOn {
     public static void main(String[] args) throws Exception {
         Scheduler scheduler = Schedulers.newElastic("E");
 
-        Flux<String> flux = Flux.just("A", "B")
+        Flux<String> flux = Flux.create(sink -> {
+            log.info("Before feeding sink");
+            sink.next("A");
+            log.info("After sending A");
+            sink.next("B");
+            log.info("After sending B");
+            sink.complete();
+            log.info("After feeding sink");
+        });
+
+        Flux<String> flux1 =
+                flux
                 .log("Above subscribeOn")
                 .subscribeOn(scheduler)
-                .log("Below subscribeOn");
+                .log("Below subscribeOn")
+                .doFinally(s -> {
+                    scheduler.dispose();
+                });
 
-        flux.subscribe(log::info);
+        flux1.subscribe(log::info);
 
-        scheduler.dispose();
+        //scheduler.dispose();
     }
 }

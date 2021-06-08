@@ -13,7 +13,9 @@ public class Part01ParallelFlux {
                 .runOn(Schedulers.parallel())
                 .map(i -> i * 2)
                 .log();
-        parallelFlux.subscribe(i -> log.info("Item: {}", i), e -> log.warn("", e), () -> log.info("completed"));
+        parallelFlux.subscribe(i -> log.info("Item: {}", i)
+                , e -> log.warn("", e), () -> log.info("completed"));
         Thread.sleep(1000);
+
     }
 }
