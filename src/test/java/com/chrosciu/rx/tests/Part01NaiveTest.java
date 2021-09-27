@@ -1,4 +1,4 @@
-package com.chrosciu.tests;
+package com.chrosciu.rx.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
