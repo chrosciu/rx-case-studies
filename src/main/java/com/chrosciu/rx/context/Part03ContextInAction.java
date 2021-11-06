@@ -23,7 +23,7 @@ public class Part03ContextInAction {
             }
         });
         withLog.subscriberContext(ctx -> ctx.put("rid", "f00d")).subscribe();
-        withLog.subscribe();
+        //withLog.subscribe();
 
         Thread.sleep(1000);
     }
