@@ -1,12 +1,14 @@
 package com.chrosciu.rx.threads;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
 @Slf4j
 public class Part01FullSynchronous {
+    @SneakyThrows
     public static void main(String[] args) {
-        Flux<String> flux = Flux.create(sink -> {
+        Flux<String> flux = Flux.<String>create(sink -> {
             log.info("Before feeding sink");
             sink.next("A");
             log.info("After sending A");
@@ -27,5 +29,7 @@ public class Part01FullSynchronous {
         });
 
         log.info("After subscribe");
+
+        //Thread.sleep(2000);
     }
 }
