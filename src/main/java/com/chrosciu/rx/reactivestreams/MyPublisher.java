@@ -1,69 +1,99 @@
 package com.chrosciu.rx.reactivestreams;
 
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 @Slf4j
+@RequiredArgsConstructor
 class MyPublisher implements Publisher<Long> {
+    private final long n;
+    @Getter
+    private boolean terminated = false;
 
-    private Subscriber<? super Long> subscriber;
     private MySubscription subscription;
-    private long n;
-    private long demand;
-    private long next;
-    private boolean inRequest;
-
-    public MyPublisher(long n) {
-        this.n = n;
-    }
 
     class MySubscription implements Subscription {
+        private final Subscriber<? super Long> subscriber;
+        private long demand;
+        private long next;
+        private boolean inRequest;
+
+        private MySubscription(Subscriber<? super Long> subscriber) {
+            this.subscriber = subscriber;
+            this.demand = 0;
+            this.next = 1;
+            this.inRequest = false;
+        }
 
         @Override
         public void request(long l) {
-            if (MyPublisher.this.subscriber == null) {
+            if (isTerminated()) {
                 return;
             }
             if (l <= 0) {
-                MyPublisher.this.subscriber.onError(new IllegalArgumentException());
-                MyPublisher.this.subscriber = null;
+                this.subscriber.onError(new IllegalArgumentException());
+                terminate();
             }
-            MyPublisher.this.demand += l;
-            if (MyPublisher.this.inRequest) {
+            this.demand += l;
+            if (this.inRequest) {
                 return;
             }
-            MyPublisher.this.inRequest = true;
-            while (MyPublisher.this.demand > 0 && MyPublisher.this.next <= MyPublisher.this.n) {
-                MyPublisher.this.subscriber.onNext(MyPublisher.this.next);
-                if (MyPublisher.this.next == MyPublisher.this.n) {
-                    MyPublisher.this.subscriber.onComplete();
-                    MyPublisher.this.subscriber = null;
+            this.inRequest = true;
+            while (this.demand > 0 && this.next <= MyPublisher.this.n) {
+                this.subscriber.onNext(this.next);
+                if (this.next == MyPublisher.this.n) {
+                    this.subscriber.onComplete();
+                    terminate();
                 }
-                MyPublisher.this.next += 1;
-                MyPublisher.this.demand -= 1;
+                this.next += 1;
+                this.demand -= 1;
             }
-            MyPublisher.this.inRequest = false;
+            this.inRequest = false;
         }
 
         @Override
         public void cancel() {
-            MyPublisher.this.subscriber = null;
+            terminate();
         }
     }
 
+    static class MyDummySubscription implements Subscription {
+        @Override
+        public void request(long n) {
+            return;
+        }
+
+        @Override
+        public void cancel() {
+            return;
+        }
+    }
+
+    private final Subscription dummySubscription = new MyDummySubscription();
+
     @Override
     public void subscribe(@NonNull Subscriber<? super Long> subscriber) {
-        if (this.subscriber != null) {
-            throw new IllegalStateException("Cannot subscribe more than once");
+        if (isTerminated()) {
+            subscriber.onSubscribe(dummySubscription);
+            subscriber.onError(new IllegalStateException("Cannot subscribe to terminated publisher"));
+            return;
         }
-        this.subscriber = subscriber;
-        this.demand = 0;
-        this.next = 1;
-        this.inRequest = false;
-        this.subscription = new MySubscription();
-        this.subscriber.onSubscribe(subscription);
+        if (this.subscription != null) {
+            subscriber.onSubscribe(dummySubscription);
+            subscriber.onError(new IllegalStateException("Cannot subscribe more than once"));
+            return;
+        }
+        this.subscription = new MySubscription(subscriber);
+        subscriber.onSubscribe(this.subscription);
+    }
+
+    private void terminate() {
+        this.subscription = null;
+        this.terminated = true;
     }
 }

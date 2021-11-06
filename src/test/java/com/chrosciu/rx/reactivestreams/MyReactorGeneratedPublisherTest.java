@@ -4,14 +4,14 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.tck.PublisherVerification;
 import org.reactivestreams.tck.TestEnvironment;
 
-public class MyReactorPublisherTest extends PublisherVerification<Long> {
-    public MyReactorPublisherTest() {
+public class MyReactorGeneratedPublisherTest extends PublisherVerification<Long> {
+    public MyReactorGeneratedPublisherTest() {
         super(new TestEnvironment());
     }
 
     @Override
     public Publisher<Long> createPublisher(long l) {
-        return MyReactorPublisher.create(l);
+        return MyReactorGeneratedPublisher.create(l);
     }
 
     @Override
