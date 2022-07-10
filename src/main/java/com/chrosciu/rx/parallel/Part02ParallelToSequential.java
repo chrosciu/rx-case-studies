@@ -12,10 +12,10 @@ public class Part02ParallelToSequential {
         ParallelFlux<Integer> parallelFlux = flux.parallel()
                 .runOn(Schedulers.parallel())
                 .map(i -> i * 2)
-                .log();
+                .log("[Parallel]");
         Flux<Integer> mergedFlux = parallelFlux.sequential()
                 .map(i -> i + 1)
-                .log();
+                .log("[Sequential]");
 
         mergedFlux.subscribe(i -> log.info("Item: {}", i), e -> log.warn("", e), () -> log.info("completed"));
         Thread.sleep(1000);
