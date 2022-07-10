@@ -10,7 +10,7 @@ import java.util.List;
 @Slf4j
 public class Part04ReactiveFromBlocking {
     public static void main(String[] args) throws Exception {
-        Flux<String> logins = Flux.defer(() -> Flux.fromIterable(getUserLogins())).subscribeOn(Schedulers.elastic());
+        Flux<String> logins = Flux.defer(() -> Flux.fromIterable(getUserLogins())).subscribeOn(Schedulers.boundedElastic());
         log.info("Before subscribe");
 
         logins.subscribe(s -> log.info(s), e -> log.warn("", e));

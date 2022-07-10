@@ -10,7 +10,7 @@ import reactor.util.function.Tuples;
 @Slf4j
 public class Part02TaintedBusinessData {
     public static void main(String[] args) throws Exception {
-        Flux<Integer> data = Flux.just(3, 5, 7).publishOn(Schedulers.elastic());
+        Flux<Integer> data = Flux.just(3, 5, 7).publishOn(Schedulers.boundedElastic());
         Flux<Tuple2<Integer, String>> tainted = data.map(i -> addRequestId(i,"f00d"));
         Flux<Tuple2<Integer, String>> logged = tainted.doOnNext(t -> log.info("RequestId: [{}] {}", t.getT2(), t.getT1()));
         logged.subscribe();

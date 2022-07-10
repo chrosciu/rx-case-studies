@@ -8,7 +8,7 @@ import reactor.core.scheduler.Schedulers;
 public class Part05ReactiveToBlocking {
 
     public static void main(String[] args) throws Exception {
-        Flux<String> logins = Flux.just("A", "B").publishOn(Schedulers.elastic());
+        Flux<String> logins = Flux.just("A", "B").publishOn(Schedulers.boundedElastic());
 
         logins.doOnNext(u -> save(u)).subscribe(s -> log.info(s), e -> log.warn("", e));
 

@@ -8,7 +8,7 @@ import reactor.core.scheduler.Schedulers;
 public class Part01ThreadLocal {
     public static void main(String[] args) throws Exception {
         ThreadLocal<String> rid = new ThreadLocal<>();
-        Flux<Integer> data = Flux.just(3, 5, 7).publishOn(Schedulers.elastic());
+        Flux<Integer> data = Flux.just(3, 5, 7).publishOn(Schedulers.boundedElastic());
         Flux<Integer> logged = data.doOnNext(i -> log.info("RequestId: [{}] {}", rid.get(), i));
         rid.set("f00d");
         logged.subscribe();
