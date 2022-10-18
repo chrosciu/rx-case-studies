@@ -26,7 +26,9 @@ public class Part02PublishOn {
             .publishOn(scheduler2)
             .log("Below second publishOn");
 
-        flux.subscribe(log::info, e -> log.warn("", e), () -> log.info("Completed"));
+        flux.subscribe(i -> log.info("Item: {}", i),
+                e -> log.warn("Error: ", e),
+                () -> log.info("Completed"));
 
         scheduler.dispose();
         scheduler2.dispose();

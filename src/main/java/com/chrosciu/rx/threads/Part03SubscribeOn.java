@@ -26,8 +26,13 @@ public class Part03SubscribeOn {
                 .subscribeOn(scheduler)
                 .publishOn(scheduler2);
 
-
-        flux.doFinally(s -> countDownLatch.countDown()).subscribe(log::info, e -> log.warn("", e), () -> log.info("Completed"));
+        flux.doFinally(
+                s -> countDownLatch.countDown()
+        ).subscribe(
+                i -> log.info("Item: {}", i),
+                e -> log.warn("Error: ", e),
+                () -> log.info("Completed")
+        );
 
         countDownLatch.await();
 

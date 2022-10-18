@@ -20,13 +20,9 @@ public class Part01FullSynchronous {
 
         log.info("Before subscribe");
 
-        flux.subscribe(i -> {
-            log.info("Callback for item: {}", i);
-        }, e-> {
-            log.warn("Error:", e);
-        }, () -> {
-           log.info("Callback after complete");
-        });
+        flux.subscribe(i -> log.info("Item: {}", i),
+                e -> log.warn("Error: ", e),
+                () -> log.info("Completed"));
 
         log.info("After subscribe");
 

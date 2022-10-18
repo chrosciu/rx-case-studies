@@ -11,13 +11,13 @@ public class Part01UnhandledError {
                 .concatWith(Flux.error(new RuntimeException("Blah!")))
                 .onErrorReturn("DUMMY");
 
-        flux.subscribe(s -> log.info("Item: {}", s));
+        flux.subscribe(i -> log.info("Item: {}", i));
 
-//        flux.subscribe(s -> log.info("Item: {}", s),
-//                e -> log.warn("Error in stream: ", e),
+//        flux.subscribe(i -> log.info("Item: {}", i),
+//                e -> log.warn("Error: ", e),
 //                () -> log.info("Completed"));
 
-//        flux.subscribe(s -> log.info("Item: {}", s),
+//        flux.subscribe(i -> log.info("Item: {}", i),
 //                e -> {},
 //                () -> log.info("Completed"));
 
