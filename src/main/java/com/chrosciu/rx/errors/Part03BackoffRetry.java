@@ -7,7 +7,7 @@ import reactor.util.retry.Retry;
 import java.time.Duration;
 
 @Slf4j
-public class BackoffRetry {
+public class Part03BackoffRetry {
     public static void main(String[] args) throws Exception {
         Flux<String> original = Flux.just("A", "B").delayElements(Duration.ofMillis(50));
         Flux<String> error = Flux.error(new RuntimeException("Baadf00d"));
