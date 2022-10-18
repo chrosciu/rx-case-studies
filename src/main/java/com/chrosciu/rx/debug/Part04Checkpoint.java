@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 public class Part04Checkpoint {
     public static void main(String[] args) {
         Mono<Integer> mono = badStream();
-        mono.subscribe(System.out::println, e -> log.warn("Error in stream: ", e));
+        mono.subscribe(i -> log.info("Item: {}", i), e -> log.warn("Error in stream: ", e));
     }
 
     private static Mono<Integer> badStream() {
@@ -17,8 +17,10 @@ public class Part04Checkpoint {
                 .filter(i -> i % 3 != 0)
                 .map(i -> i + 1)
                 //.checkpoint()
+                .checkpoint("Before elementAt")
                 .elementAt(8)
                 //.checkpoint()
+                .checkpoint("Before filter")
                 .filter(i -> i > 0)
                 //.checkpoint();
                 .checkpoint("After filter");

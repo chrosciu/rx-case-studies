@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 public class Part01RawError {
     public static void main(String[] args) {
         Mono<Integer> mono = badStream();
-        mono.subscribe(System.out::println, e -> log.warn("Error in stream: ", e));
+        mono.subscribe(i -> log.info("Item: {}", i), e -> log.warn("Error in stream: ", e));
     }
 
     private static Mono<Integer> badStream() {
