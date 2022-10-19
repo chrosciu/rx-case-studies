@@ -19,8 +19,8 @@ class MySubscriber implements Subscriber<Long> {
     public void cancel() {
         if (subscription != null) {
             subscription.cancel();
+            subscription = null;
         }
-        subscription = null;
     }
 
     @Override
