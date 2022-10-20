@@ -14,6 +14,7 @@ public class Part02Log {
     private static Mono<Integer> badStream() {
         return Flux.range(0, 10)
                 .map(i -> i * 2)
+                .log("Before filter ")
                 .filter(i -> i % 3 != 0)
                 .log("After filter ")
                 .map(i -> i + 1)
