@@ -23,8 +23,13 @@ public class Part03SubscribeOn {
                     sink.complete();
                     log.info("After sending complete");
                 })
+                .log("Above subscribeOn")
                 .subscribeOn(scheduler)
-                .publishOn(scheduler2);
+                .log("Below subscribeOn")
+                .subscribeOn(scheduler2)
+                .log("Below second subscribeOn");
+
+        log.info("Before subscribe");
 
         flux.doFinally(
                 s -> countDownLatch.countDown()
@@ -33,6 +38,8 @@ public class Part03SubscribeOn {
                 e -> log.warn("Error: ", e),
                 () -> log.info("Completed")
         );
+
+        log.info("After subscribe");
 
         countDownLatch.await();
 
