@@ -13,7 +13,7 @@ public class Part03BackoffRetry {
         Flux<String> error = Flux.error(new RuntimeException("Baadf00d"));
         Flux<String> flux = Flux.concat(original, error);
 
-        Flux<String> withBackoff = flux.retryWhen(Retry.backoff(2, Duration.ofMillis(200)));
+        Flux<String> withBackoff = flux.retryWhen(Retry.backoff(3, Duration.ofMillis(200)));
         withBackoff.elapsed().subscribe(System.out::println, e -> log.warn("error:", e));
 
         Thread.sleep(5000);
