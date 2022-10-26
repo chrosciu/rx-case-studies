@@ -1,7 +1,7 @@
 package com.chrosciu.rx.operators;
 
-import lombok.Data;
 import lombok.SneakyThrows;
+import lombok.Value;
 import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
@@ -11,11 +11,11 @@ import java.time.Duration;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
-@Data
+@Value
 @With
 class User {
-    private final Integer id;
-    private final String name;
+    Integer id;
+    String name;
 }
 
 class RemoteUserService {
