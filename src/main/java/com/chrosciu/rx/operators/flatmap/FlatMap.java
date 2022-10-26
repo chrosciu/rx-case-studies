@@ -1,4 +1,4 @@
-package com.chrosciu.rx.operators;
+package com.chrosciu.rx.operators.flatmap;
 
 import lombok.SneakyThrows;
 import lombok.Value;
@@ -55,7 +55,7 @@ public class FlatMap {
 
     @SneakyThrows
     private void processUsers() {
-        Flux<User> users = remoteUserService.fetchUsers().switchMap(localUserRepository::saveUser);
+        Flux<User> users = remoteUserService.fetchUsers().flatMap(localUserRepository::saveUser);
 
         users.doFinally(s -> countDownLatch.countDown()).subscribe(u -> log.info("{}", u));
 
