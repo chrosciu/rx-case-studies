@@ -24,13 +24,22 @@ public class Part06ParallelFlatMap {
         log.info("After subscribe");
 
         latch.await();
+
+        Thread.sleep(5000);
     }
 
     @SneakyThrows
     private static Mono<String> save(String login) {
+        return Mono.fromCallable(() -> {
+            try {
+                Thread.sleep(1000);
+                log.info("Blocking save !!! for " + login);
+                return login;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         //blocks for long time
-        Thread.sleep(1000);
-        log.info("Blocking save !!! for " + login);
-        return Mono.just(login);
+
     }
 }
