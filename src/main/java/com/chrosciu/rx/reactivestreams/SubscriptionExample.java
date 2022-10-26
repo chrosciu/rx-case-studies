@@ -14,14 +14,12 @@ public class SubscriptionExample {
         MySubscriber subscriber = new MySubscriber();
         log.info("subscribe()");
         publisher.subscribe(subscriber);
-        log.info("request(5)");
-        subscriber.request(5);
 //        log.info("cancel()");
 //        subscriber.cancel();
         log.info("request(5)");
         subscriber.request(5);
-        log.info("request(200)");
-        subscriber.request(200);
+//        log.info("request(200)");
+//        subscriber.request(200);
         log.info("cancel()");
         subscriber.cancel();
     }

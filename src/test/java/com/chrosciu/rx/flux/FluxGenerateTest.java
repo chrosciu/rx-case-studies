@@ -1,17 +1,17 @@
-package com.chrosciu.rx.reactivestreams;
+package com.chrosciu.rx.flux;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.tck.PublisherVerification;
 import org.reactivestreams.tck.TestEnvironment;
 
-public class MyReactorGeneratedPublisherTest extends PublisherVerification<Long> {
-    public MyReactorGeneratedPublisherTest() {
+public class FluxGenerateTest extends PublisherVerification<Long> {
+    public FluxGenerateTest() {
         super(new TestEnvironment());
     }
 
     @Override
     public Publisher<Long> createPublisher(long l) {
-        return MyReactorGeneratedPublisher.create(l);
+        return FluxGenerate.create(l);
     }
 
     @Override
