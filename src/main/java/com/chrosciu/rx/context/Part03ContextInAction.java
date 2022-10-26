@@ -7,7 +7,9 @@ import reactor.core.scheduler.Schedulers;
 @Slf4j
 public class Part03ContextInAction {
     public static void main(String[] args) throws Exception {
-        Flux<Integer> data = Flux.just(3, 5, 7).concatWith(Flux.error(new RuntimeException("boom"))).publishOn(Schedulers.boundedElastic());
+        Flux<Integer> data = Flux.just(3, 5, 7)
+                .concatWith(Flux.error(new RuntimeException("boom")))
+                .publishOn(Schedulers.boundedElastic());
         Flux<Integer> withLog = data.doOnEach(signal -> {
             String requestId = signal.getContextView().getOrDefault("rid", "N/A");
             switch(signal.getType()) {
