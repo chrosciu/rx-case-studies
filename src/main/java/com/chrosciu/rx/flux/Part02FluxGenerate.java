@@ -7,7 +7,7 @@ import reactor.core.publisher.SynchronousSink;
 import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
 
-public class FluxGenerate {
+public class Part02FluxGenerate {
     public static Publisher<Long> create(long to) {
         return Flux.generate(new Callable<Long>() {
             @Override
