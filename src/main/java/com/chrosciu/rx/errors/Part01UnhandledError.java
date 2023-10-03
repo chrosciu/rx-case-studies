@@ -7,9 +7,8 @@ import reactor.core.publisher.Flux;
 public class Part01UnhandledError {
     public static void main(String[] args) {
         Flux<String> flux = Flux
-                .just("A", "B")
-                .concatWith(Flux.error(new RuntimeException("Blah!")))
-                .onErrorReturn("DUMMY");
+                .just("Marcin", "Tomasz")
+                .concatWith(Flux.error(new RuntimeException("Blah!")));
 
         flux.subscribe(i -> log.info("Item: {}", i));
 

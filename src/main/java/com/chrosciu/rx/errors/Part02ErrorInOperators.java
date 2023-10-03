@@ -7,11 +7,12 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class Part02ErrorInOperators {
     private static Mono<Integer> divide(int i) {
-        return Mono.fromCallable(() -> 12 / i);
+        return Mono.fromCallable(() -> 12 / i)
                 //.log("Before resume " + i)
-                //.doOnError(e -> log.warn("Error in divide {}", i, e))
-                //.onErrorResume(e -> Mono.empty())
-                //.onErrorReturn(-1)
+                //.doOnError(e -> log.warn("Error in divide {}", i, e));
+                //.onErrorResume(e -> Mono.empty());
+                //.onErrorReturn(-1);
+                .onErrorMap(e -> new RuntimeException(e));
                 //.log("After resume " + i);
     }
 
