@@ -6,14 +6,37 @@ import reactor.test.StepVerifier;
 
 public class Part02SimpleTest {
     @Test
-    public void simpleTest() {
+    public void simpleFluxTest() {
         //given
-        Flux<String> flux = Flux.just("A", "B");
+        Flux<String> flux = simpleFlux();
 
         //when - then
         StepVerifier.create(flux)
                 .expectNext("A")
                 .expectNext("B")
                 .verifyComplete();
+    }
+
+    @Test
+    public void errorFluxTest() {
+        //given
+        Flux<String> flux = errorFlux();
+
+        //when - then
+        StepVerifier.create(flux)
+                .expectNext("A")
+                .expectNext("B")
+                .expectError(RuntimeException.class)
+                .verify();
+    }
+
+    private Flux<String> simpleFlux() {
+        return Flux.just("A", "B");
+    }
+
+    private Flux<String> errorFlux() {
+        return Flux.just("A", "B")
+                .concatWith(Flux.error(new RuntimeException("Blah!")))
+                .concatWith(Flux.just("C"));
     }
 }

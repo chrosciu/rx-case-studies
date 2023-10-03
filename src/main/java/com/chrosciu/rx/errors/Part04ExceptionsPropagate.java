@@ -14,12 +14,14 @@ public class Part04ExceptionsPropagate {
                     try {
                         return transform(i);
                     } catch (IOException e) {
+                        //throw new RuntimeException(e);
                         throw Exceptions.propagate(e);
                     }
                 });
         flux.subscribe(i -> log.info("Item: {}", i),
                 e -> log.warn("Error: ", e));
     }
+
 
     private static int transform(int i) throws IOException {
         if (3 == i) {
