@@ -15,14 +15,15 @@ public class Part04Checkpoint {
         return Flux.range(0, 10)
                 .map(i -> i * 2)
                 .filter(i -> i % 3 != 0)
+                .checkpoint("badStream() - Before second map()")
                 .map(i -> i + 1)
                 //.checkpoint()
-                .checkpoint("Before elementAt")
+                .checkpoint("badStream() - Before elementAt()")
                 .elementAt(8)
                 //.checkpoint()
-                .checkpoint("Before filter")
+                .checkpoint("badStream() - Before filter()")
                 .filter(i -> i > 0)
                 //.checkpoint();
-                .checkpoint("After filter");
+                .checkpoint("badStream() - After filter()");
     }
 }
