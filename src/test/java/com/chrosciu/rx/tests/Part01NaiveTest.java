@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class Part01NaiveTest {
 
@@ -21,9 +21,7 @@ public class Part01NaiveTest {
         List<String> list = iterable.collect(Collectors.toList());
 
         //then
-        assertEquals(2, list.size());
-        assertEquals("A", list.get(0));
-        assertEquals("B", list.get(0));
+        assertThat(list).containsExactly("A", "B");
     }
 
     private Flux<String> simpleFlux() {
