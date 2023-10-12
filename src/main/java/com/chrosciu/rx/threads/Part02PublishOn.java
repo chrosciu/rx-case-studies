@@ -9,7 +9,6 @@ import reactor.core.scheduler.Schedulers;
 public class Part02PublishOn {
     public static void main(String[] args) {
         Scheduler scheduler = Schedulers.newBoundedElastic(10, 100,"E");
-        Scheduler scheduler2 = Schedulers.newBoundedElastic(10, 100, "EE");
 
         Flux<String> flux = Flux.<String>create(sink -> {
                 log.info("Before sending A");
@@ -22,9 +21,7 @@ public class Part02PublishOn {
             })
             .log("Above publishOn")
             .publishOn(scheduler)
-            .log("Below publishOn")
-            .publishOn(scheduler2)
-            .log("Below second publishOn");
+            .log("Below publishOn");
 
         log.info("Before subscribe");
 
@@ -35,6 +32,5 @@ public class Part02PublishOn {
         log.info("After subscribe");
 
         scheduler.dispose();
-        scheduler2.dispose();
     }
 }

@@ -12,7 +12,6 @@ public class Part03SubscribeOn {
     public static void main(String[] args) throws Exception {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         Scheduler scheduler = Schedulers.newBoundedElastic(10, 100, "E");
-        Scheduler scheduler2 = Schedulers.newBoundedElastic(10, 100,"EE");
 
         Flux<String> flux = Flux.<String>create(sink -> {
                     log.info("Before sending A");
@@ -25,9 +24,7 @@ public class Part03SubscribeOn {
                 })
                 .log("Above subscribeOn")
                 .subscribeOn(scheduler)
-                .log("Below subscribeOn")
-                .subscribeOn(scheduler2)
-                .log("Below second subscribeOn");
+                .log("Below subscribeOn");
 
         log.info("Before subscribe");
 
@@ -44,6 +41,5 @@ public class Part03SubscribeOn {
         countDownLatch.await();
 
         scheduler.dispose();
-        scheduler2.dispose();
     }
 }
