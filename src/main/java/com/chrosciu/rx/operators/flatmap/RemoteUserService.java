@@ -10,6 +10,6 @@ class RemoteUserService {
                 new User(null, "User3"),
                 new User(null, "User4"),
                 new User(null, "User5")
-        );
+        ).log("fetchUsers");
     }
 }

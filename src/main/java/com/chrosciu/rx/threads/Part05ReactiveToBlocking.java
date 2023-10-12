@@ -12,9 +12,14 @@ public class Part05ReactiveToBlocking {
 
     public static void main(String[] args) throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
-        Flux<String> logins = Flux.just("A", "B").publishOn(Schedulers.boundedElastic());
+        Flux<String> logins = Flux.just("A", "B")
+                .publishOn(Schedulers.boundedElastic());
 
-        logins.doFinally(st -> latch.countDown()).doOnNext(u -> save(u)).subscribe(s -> log.info(s), e -> log.warn("", e));
+        logins.doFinally(st -> latch.countDown())
+                .doOnNext(u -> save(u))
+                .subscribe(s -> log.info(s),
+                        e -> log.info("Error: ", e),
+                        () -> log.info("Completed"));
 
         latch.await();
     }

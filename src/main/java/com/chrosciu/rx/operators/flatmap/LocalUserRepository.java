@@ -15,10 +15,8 @@ class LocalUserRepository {
         return Mono.fromCallable(() -> saveUserInternal(user))
                 //.delayElement(Duration.ofMillis(random.nextInt(1000)))
                 .doOnSubscribe(s -> log.info("Saving user: {}", user))
-                .doOnNext(u -> log.info("User saved: {}", u))
+                .doOnNext(u -> log.info("User saved: {}", u));
                 //.subscribeOn(Schedulers.boundedElastic())
-                .doOnEach(s -> {});
-
 
     }
 

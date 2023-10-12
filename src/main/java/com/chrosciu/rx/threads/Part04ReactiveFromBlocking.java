@@ -13,11 +13,15 @@ import java.util.concurrent.CountDownLatch;
 public class Part04ReactiveFromBlocking {
     public static void main(String[] args) throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
-        Flux<String> logins = Flux.defer(() -> Flux.fromIterable(getUserLogins())).subscribeOn(Schedulers.boundedElastic());
+        Flux<String> logins = Flux.defer(() -> Flux.fromIterable(getUserLogins()))
+                .subscribeOn(Schedulers.boundedElastic());
 
         log.info("Before subscribe");
 
-        logins.doFinally(st -> latch.countDown()).subscribe(s -> log.info(s), e -> log.warn("", e));
+        logins.doFinally(st -> latch.countDown())
+                .subscribe(s -> log.info(s),
+                        e -> log.info("Error: ", e),
+                        () -> log.info("Completed"));
 
         log.info("After subscribe");
 

@@ -16,7 +16,7 @@ public class Part01FullSynchronous {
             log.info("After sending B");
             sink.complete();
             log.info("After feeding sink");
-        });
+        }).log();
 
         log.info("Before subscribe");
 
@@ -25,7 +25,5 @@ public class Part01FullSynchronous {
                 () -> log.info("Completed"));
 
         log.info("After subscribe");
-
-        //Thread.sleep(2000);
     }
 }
