@@ -7,8 +7,9 @@ import reactor.core.publisher.Flux;
 public class Map {
     public static void main(String[] args) {
         Flux<String> upstream = Flux.just("Marcin", "Tomasz", "Pawel").log("Upstream");
-
+        //.... map
         Flux<String> downstream = upstream.map(s -> transform(s)).log("Downstream");
+        //.... subscriber
 
         downstream.subscribe(s -> log.info("Item: {}", s),
                 t -> log.info("Error: ", t),
