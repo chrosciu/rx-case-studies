@@ -17,6 +17,10 @@ public class Part02SimpleTest {
                 .verifyComplete();
     }
 
+    private Flux<String> simpleFlux() {
+        return Flux.just("A", "B");
+    }
+
     @Test
     public void errorFluxTest() {
         //given
@@ -28,10 +32,6 @@ public class Part02SimpleTest {
                 .expectNext("B")
                 .expectError(RuntimeException.class)
                 .verify();
-    }
-
-    private Flux<String> simpleFlux() {
-        return Flux.just("A", "B");
     }
 
     private Flux<String> errorFlux() {
