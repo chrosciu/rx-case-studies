@@ -1,4 +1,4 @@
-package com.chrosciu.rx.operators;
+package com.chrosciu.rx.operators.debounce;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
