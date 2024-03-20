@@ -18,10 +18,11 @@ public class FlatMap {
 
     @SneakyThrows
     private void processUsers() {
-        Flux<User> users = remoteUserService.fetchUsers()
-                .flatMap(user -> localUserRepository.saveUser(user));
+        Flux<User> savedUsers = remoteUserService.fetchUsers()
+                .flatMap(user -> localUserRepository.saveUser(user))
+                .log("savedUsers");
 
-        users.doFinally(s -> countDownLatch.countDown())
+        savedUsers.doFinally(s -> countDownLatch.countDown())
                 .subscribe(u -> log.info("Item: {}", u),
                         e -> log.warn("Error: ", e),
                         () -> log.info("Completed"));
