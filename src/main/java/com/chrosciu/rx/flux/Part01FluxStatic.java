@@ -22,7 +22,8 @@ public class Part01FluxStatic {
                 t -> log.info("Error: ", t),
                 () -> log.info("Completed"));
 
-        log.info("{}", disposable.isDisposed());
+        log.info("Is disposed: {}", disposable.isDisposed());
         disposable.dispose();
+        log.info("Is disposed: {}", disposable.isDisposed());
     }
 }
