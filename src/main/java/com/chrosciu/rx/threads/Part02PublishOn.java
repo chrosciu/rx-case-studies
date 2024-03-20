@@ -8,10 +8,10 @@ import reactor.core.scheduler.Schedulers;
 @Slf4j
 public class Part02PublishOn {
     public static void main(String[] args) {
-        Scheduler scheduler = Schedulers.newBoundedElastic(10, 100,"E");
+        Scheduler scheduler = Schedulers.newBoundedElastic(10, 100, "Elastic");
 
         Flux<String> flux = Flux.<String>create(sink -> {
-                log.info("Before sending A");
+                log.info("Before feeding sink");
                 sink.next("A");
                 log.info("After sending A");
                 sink.next("B");
