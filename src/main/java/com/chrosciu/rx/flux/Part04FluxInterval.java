@@ -22,17 +22,17 @@ public class Part04FluxInterval {
 
         log.info("Before subscribe");
 
-        Disposable disposable = flux.subscribe(l -> log.info("Item: {}", l),
+        Disposable disposable = flux.log().subscribe(l -> log.info("Item: {}", l),
                 t -> log.info("Error: ", t),
                 () -> {
                     log.info("Completed");
                     latch.countDown();
                 });
 
-        disposable.dispose();
-
         log.info("After subscribe");
 
         latch.await();
+
+        disposable.dispose();
     }
 }
