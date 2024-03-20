@@ -17,11 +17,12 @@ public class Part03TimeTest {
         Mono<String> mono = delayedMono();
 
         //when / then
-        StepVerifier.create(mono)
+        Duration duration = StepVerifier.create(mono)
                 .expectSubscription()
                 .expectNoEvent(Duration.ofSeconds(10))
                 .expectNext("Marcin")
                 .verifyComplete();
+        log.info("shouldReturnDelayedValue - duration: {}", duration);
     }
 
     @Test
@@ -30,11 +31,12 @@ public class Part03TimeTest {
         Supplier<Mono<String>> monoSupplier = () -> delayedMono();
 
         //when / then
-        StepVerifier.withVirtualTime(monoSupplier)
+        Duration duration = StepVerifier.withVirtualTime(monoSupplier)
                 .expectSubscription()
                 .expectNoEvent(Duration.ofSeconds(10))
                 .expectNext("Marcin")
                 .verifyComplete();
+        log.info("shouldReturnDelayedValueUsingVirtualTime - duration: {}", duration);
     }
 
     private Mono<String> delayedMono() {
