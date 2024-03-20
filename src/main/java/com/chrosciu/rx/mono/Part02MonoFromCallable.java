@@ -43,8 +43,15 @@ public class Part02MonoFromCallable {
 
         log.info("After subscribe");
 
-        log.info("{}", disposable.isDisposed());
+        log.info("Is disposed: {}", disposable.isDisposed());
         disposable.dispose();
+        log.info("Is disposed: {}", disposable.isDisposed());
+
+        mono.subscribe(
+                s -> log.info("Item: {}", s),
+                throwable -> log.info("Error: ", throwable),
+                () -> log.info("Completed")
+        ).dispose();
 
     }
 
