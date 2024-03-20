@@ -18,6 +18,7 @@ public class Part03FluxCreate {
                 for (long l = 1; l <= to; ++l) {
                     sink.next(l);
                 }
+                //sink.error(new RuntimeException("Blah!"));
                 sink.complete();
             }
         });
