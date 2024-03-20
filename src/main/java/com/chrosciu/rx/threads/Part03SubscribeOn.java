@@ -11,10 +11,10 @@ import java.util.concurrent.CountDownLatch;
 public class Part03SubscribeOn {
     public static void main(String[] args) throws Exception {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-        Scheduler scheduler = Schedulers.newBoundedElastic(10, 100, "E");
+        Scheduler scheduler = Schedulers.newBoundedElastic(10, 100, "Elastic");
 
         Flux<String> flux = Flux.<String>create(sink -> {
-                    log.info("Before sending A");
+                    log.info("Before feeding sink");
                     sink.next("A");
                     log.info("After sending A");
                     sink.next("B");
