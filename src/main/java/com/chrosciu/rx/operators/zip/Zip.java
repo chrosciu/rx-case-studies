@@ -9,6 +9,7 @@ import reactor.util.function.Tuples;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.function.BiFunction;
 
 @Slf4j
@@ -31,14 +32,21 @@ public class Zip {
         Flux<Long> flux2 = fluxWithDelays(flux2Items).log("flux2");
 
         //Flux<Tuple2<String, Long>> flux = Flux.zip(flux1, flux2);
+        //Flux<String> flux = Flux.zip(flux1, flux2, (s, aLong) -> String.format("%s - %d", s, aLong));
+        //Flux<String> flux = Flux.zip(flux1, flux2).map(t2 -> String.format("%s - %d", t2.getT1(), t2.getT2()));
         Flux<Tuple2<String, Long>> flux = Flux.combineLatest(flux1, flux2,
                 (s, aLong) -> Tuples.of(s, aLong));
 
-                flux.subscribe(t2 -> log.info("Item: {}", t2),
-                        t -> log.info("Error: ", t),
-                        () -> log.info("Completed"));
+        CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        Thread.sleep(3000);
+        flux.log("flux").doFinally(s -> countDownLatch.countDown())
+                .subscribe(
+                        t2 -> log.info("Item: {}", t2),
+                        t -> log.info("Error: ", t),
+                        () -> log.info("Completed")
+                );
+
+        countDownLatch.await();
     }
 
     private static <T> Flux<T> fluxWithDelays(List<Tuple2<T, Duration>> items) {
