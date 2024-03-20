@@ -9,6 +9,7 @@ import reactor.util.function.Tuples;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -31,16 +32,22 @@ public class Merge {
 
         Flux<String> flux2 = fluxWithDelays(flux2Items).log("flux2");
 
+        //Flux<String> flux = flux1;
         //Flux<String> flux = Flux.merge(flux1, flux2);
         //Flux<String> flux = flux1.mergeWith(flux2);
         //Flux<String> flux = Flux.concat(flux1, flux2);
         Flux<String> flux = Flux.mergeSequential(flux1, flux2);
 
-        flux.subscribe(s -> log.info("Item: {}", s),
-                t -> log.info("Error: ", t),
-                () -> log.info("Completed"));
+        CountDownLatch countDownLatch = new CountDownLatch(1);
 
-        Thread.sleep(3000);
+        flux.log("flux").doFinally(s -> countDownLatch.countDown())
+                .subscribe(
+                        s -> log.info("Item: {}", s),
+                        t -> log.info("Error: ", t),
+                        () -> log.info("Completed")
+                );
+
+        countDownLatch.await();
     }
 
     private static <T> Flux<T> fluxWithDelays(List<Tuple2<T, Duration>> items) {
