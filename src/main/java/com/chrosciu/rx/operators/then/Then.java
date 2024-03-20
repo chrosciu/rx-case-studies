@@ -17,9 +17,12 @@ public class Then {
 
         Mono<Void> mono = flux.then();
 
-        mono.subscribe(v -> log.info("Item: {}", v),
-                t -> log.info("Error: ", t),
-                () -> log.info("Completed"));
+        mono.log("mono")
+                .subscribe(
+                        v -> log.info("Item: {}", v),
+                        t -> log.info("Error: ", t),
+                        () -> log.info("Completed")
+                );
 
         Thread.sleep(1000);
     }
