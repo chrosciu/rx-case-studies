@@ -5,7 +5,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-public class Part01RawError {
+class S01RawError {
     public static void main(String[] args) {
         Mono<Integer> mono = badStream();
         mono.subscribe(i -> log.info("Item: {}", i), e -> log.warn("Error in stream: ", e));
