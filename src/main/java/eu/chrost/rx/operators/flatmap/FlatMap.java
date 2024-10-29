@@ -13,12 +13,12 @@ public class FlatMap {
     CountDownLatch countDownLatch = new CountDownLatch(1);
 
     public static void main(String[] args) {
-        new FlatMap().processUsers();
+        new FlatMap().fetchUsersAndSaveThem();
     }
 
     @SneakyThrows
-    private void processUsers() {
-        Flux<User> savedUsers = remoteUserService.fetchUsers()
+    private void fetchUsersAndSaveThem() {
+        Flux<LocalUser> savedUsers = remoteUserService.fetchUsers()
                 .flatMap(user -> localUserRepository.saveUser(user))
                 .log("savedUsers");
 

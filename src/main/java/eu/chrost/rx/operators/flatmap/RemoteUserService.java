@@ -3,13 +3,13 @@ package eu.chrost.rx.operators.flatmap;
 import reactor.core.publisher.Flux;
 
 class RemoteUserService {
-    public Flux<User> fetchUsers() {
+    public Flux<RemoteUser> fetchUsers() {
         return Flux.just(
-                new User(null, "User1"),
-                new User(null, "User2"),
-                new User(null, "User3"),
-                new User(null, "User4"),
-                new User(null, "User5")
+                new RemoteUser("User1"),
+                new RemoteUser("User2"),
+                new RemoteUser("User3"),
+                new RemoteUser("User4"),
+                new RemoteUser("User5")
         ).log("fetchUsers");
     }
 }
