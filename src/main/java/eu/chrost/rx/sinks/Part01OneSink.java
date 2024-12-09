@@ -22,7 +22,7 @@ class Part01OneSink {
         log.info("[1] After first subscribe");
 
         log.info("sink.tryEmitValue(B)");
-        emitResult = sink.tryEmitValue("A");
+        emitResult = sink.tryEmitValue("B");
         log.info("sink.tryEmitValue(B) => {}", emitResult);
 
         log.info("[2] Before second subscribe");
